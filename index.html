@@ -21,7 +21,7 @@
     user-select: none;
   }
 
-  /* Vagues décoratives en arrière-plan */
+  /* Vagues décoratives */
   .wave {
     position: absolute;
     border-radius: 50%;
@@ -31,14 +31,14 @@
   }
   .wave-1 { width: 600px; height: 600px; top: -200px; left: -200px; }
   .wave-2 { width: 500px; height: 500px; bottom: -150px; right: -150px; animation-delay: -4s; }
-  .wave-3 { width: 400px; height: 400px; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -8s; }
-
+  .wave-3 {
+    width: 400px; height: 400px; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); animation-delay: -8s;
+    animation-name: drift-center;
+  }
   @keyframes drift {
     0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
     50% { transform: translate(20px, -20px) scale(1.1); opacity: 1; }
-  }
-  .wave-3 {
-    animation: drift-center 12s ease-in-out infinite;
   }
   @keyframes drift-center {
     0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
@@ -55,15 +55,12 @@
     position: relative;
   }
 
-  .cards {
-    display: flex;
-    gap: 16px;
-  }
+  .cards { display: flex; gap: 16px; }
 
   .card {
-    background: white;
+    background: #FFCDC9;
     border-radius: 22px;
-    padding: 18px 28px 16px;
+    padding: 14px 28px 16px;
     min-width: 150px;
     text-align: center;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(255,255,255,0.4) inset;
@@ -75,20 +72,14 @@
     box-shadow: 0 28px 70px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.4) inset;
   }
 
-  .card-hours {
-    background: #FFCDC9;
-  }
-  .card-minutes {
-    background: #FFCDC9;
-  }
-
   .label-top {
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 700;
     color: #1a1a1a;
     letter-spacing: 1.5px;
-    margin-bottom: 4px;
-    min-height: 18px;
+    margin-bottom: 2px;
+    min-height: 16px;
+    opacity: 0.55;
   }
 
   .digits {
@@ -98,7 +89,6 @@
     color: #0a0a0a;
     line-height: 0.9;
     font-variant-numeric: tabular-nums;
-    letter-spacing: 0px;
     display: inline-block;
     transform-origin: center center;
   }
@@ -111,28 +101,39 @@
     margin-top: 6px;
   }
 
-  /* Animation flip subtile */
-  .flip {
-    animation: flipAnim 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+  /* Flip subtil */
+  .flip { animation: flipAnim 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
   @keyframes flipAnim {
     0%   { transform: rotateX(0deg); opacity: 1; }
     50%  { transform: rotateX(-90deg); opacity: 0.3; }
     100% { transform: rotateX(0deg); opacity: 1; }
   }
 
-  /* Info en bas (date + salutation) */
-  .info {
-    text-align: center;
-    color: #0a0a0a;
-  }
+  /* Info en bas */
+  .info { text-align: center; color: #0a0a0a; }
   .greeting {
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.5px;
     opacity: 0.95;
     margin-bottom: 2px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background 0.2s, opacity 0.2s;
   }
+  .greeting:hover { background: rgba(0, 0, 0, 0.05); }
+  .greeting::after {
+    content: '✎';
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .greeting:hover::after { opacity: 0.5; }
+
   .date {
     font-size: 11px;
     font-weight: 400;
@@ -141,82 +142,153 @@
     text-transform: capitalize;
   }
 
-  /* Toggle 12h/24h */
-  .toggle {
+  /* Toggles top-right (langue + format) */
+  .top-right {
     position: absolute;
     top: 14px;
     right: 14px;
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+
+  .toggle {
     background: rgba(255, 255, 255, 0.18);
     border: 1px solid rgba(255, 255, 255, 0.25);
-    color: white;
-    padding: 6px 14px;
+    color: #1a1a1a;
+    padding: 6px 12px;
     border-radius: 20px;
     cursor: pointer;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.5px;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     transition: all 0.2s ease;
-    z-index: 10;
     font-family: inherit;
   }
-  .toggle:hover {
-    background: rgba(255, 255, 255, 0.28);
-    transform: translateY(-1px);
-  }
+  .toggle:hover { background: rgba(255, 255, 255, 0.32); transform: translateY(-1px); }
   .toggle:active { transform: translateY(0); }
 
-  /* Toggle thème (dark/light) */
   .theme-toggle {
-    position: absolute;
-    top: 14px;
-    left: 14px;
+    position: absolute; top: 14px; left: 14px;
     background: rgba(255, 255, 255, 0.18);
     border: 1px solid rgba(255, 255, 255, 0.25);
-    color: black;
-    width: 32px;
-    height: 32px;
+    width: 32px; height: 32px;
     border-radius: 50%;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     transition: all 0.2s ease;
     z-index: 10;
     font-size: 14px;
   }
-  .theme-toggle:hover {
-    background: rgba(255, 255, 255, 0.28);
-    transform: translateY(-1px);
-  }
+  .theme-toggle:hover { background: rgba(255, 255, 255, 0.32); transform: translateY(-1px); }
 
-  /* Mode sombre/cinematic */
-  body.dark {
-    background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 50%, #000000 100%);
-  }
-  body.dark .card {
-    background: #1f1f2e;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.08) inset;
-  }
-  body.dark .label-top { color: #d4af37; }
+  /* Mode sombre */
+  body.dark { background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 50%, #000000 100%); }
+  body.dark .card { background: #1f1f2e; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.08) inset; }
+  body.dark .label-top { color: #d4af37; opacity: 1; }
   body.dark .digits { color: #ffffff; }
   body.dark .label-bottom { color: #888; }
-  body.dark .wave {
-    background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+  body.dark .info { color: #f5f5f5; }
+  body.dark .greeting:hover { background: rgba(255, 255, 255, 0.06); }
+  body.dark .wave { background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%); }
+  body.dark .toggle { color: #f5f5f5; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.12); }
+  body.dark .toggle:hover { background: rgba(255, 255, 255, 0.14); }
+  body.dark .theme-toggle { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.12); }
+  body.dark .theme-toggle:hover { background: rgba(255, 255, 255, 0.14); }
+
+  /* Modal nom */
+  .name-modal {
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100;
+    padding: 20px;
+    animation: fadeIn 0.25s ease;
+  }
+  .name-modal[hidden] { display: none; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .name-modal-card {
+    background: white;
+    border-radius: 22px;
+    padding: 28px 24px 20px;
+    text-align: center;
+    max-width: 320px;
+    width: 100%;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #1a1a1a;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
 
-  /* Responsive : adapter aux petits embeds Notion */
+  .name-modal-emoji { font-size: 36px; margin-bottom: 6px; }
+  .name-modal-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .name-modal-subtitle { font-size: 12.5px; color: #888; margin-bottom: 18px; }
+
+  .name-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #FFCDC9;
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: inherit;
+    font-weight: 500;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    text-align: center;
+    color: #1a1a1a;
+    background: #FFF8F7;
+    margin-bottom: 14px;
+  }
+  .name-input:focus { border-color: #ff9e96; background: white; }
+  .name-input::placeholder { color: #c4a8a5; font-weight: 400; }
+
+  .name-modal-actions { display: flex; gap: 10px; }
+  .btn-skip, .btn-submit {
+    flex: 1;
+    padding: 10px;
+    border-radius: 12px;
+    border: none;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-skip { background: #f5f5f5; color: #666; }
+  .btn-skip:hover { background: #ebebeb; }
+  .btn-submit { background: #1a1a1a; color: white; }
+  .btn-submit:hover { background: #000; }
+  .btn-submit:active { transform: scale(0.97); }
+
+  body.dark .name-modal-card { background: #1f1f2e; color: white; }
+  body.dark .name-modal-subtitle { color: #999; }
+  body.dark .name-input { background: #2a2a3e; color: white; border-color: #d4af37; }
+  body.dark .name-input:focus { border-color: #f0c850; }
+  body.dark .name-input::placeholder { color: #666; }
+  body.dark .btn-skip { background: #2a2a3e; color: #ccc; }
+  body.dark .btn-skip:hover { background: #3a3a4e; }
+  body.dark .btn-submit { background: #d4af37; color: #1a1a1a; }
+  body.dark .btn-submit:hover { background: #f0c850; }
+
+  /* Responsive */
   @media (max-width: 420px) {
     .digits { font-size: 60px; }
-    .card { min-width: 120px; padding: 14px 20px; }
+    .card { min-width: 120px; padding: 10px 20px 12px; }
     .cards { gap: 12px; }
   }
   @media (max-height: 280px) {
     .digits { font-size: 56px; }
-    .card { padding: 10px 22px; }
+    .card { padding: 8px 22px 10px; }
     .clock-wrapper { gap: 12px; }
     .info .date { display: none; }
   }
@@ -227,126 +299,272 @@
   <div class="wave wave-2"></div>
   <div class="wave wave-3"></div>
 
-  <button class="theme-toggle" id="themeToggle" title="Changer de thème" aria-label="Changer de thème">🌙</button>
-  <button class="toggle" id="formatToggle" title="Format 12h/24h">24H</button>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+
+  <div class="top-right">
+    <button class="toggle" id="langToggle" aria-label="Language">EN</button>
+    <button class="toggle" id="formatToggle">24H</button>
+  </div>
 
   <div class="clock-wrapper">
     <div class="cards">
       <div class="card card-hours">
-        <div class="label-top">&nbsp;</div>
-        <div class="digits" id="hours">06</div>
-        <div class="label-bottom">HOUR</div>
+        <div class="label-top" id="period">&nbsp;</div>
+        <div class="digits" id="hours">--</div>
+        <div class="label-bottom" id="lblHour">HOUR</div>
       </div>
       <div class="card card-minutes">
         <div class="label-top">&nbsp;</div>
-        <div class="digits" id="minutes">27</div>
-        <div class="label-bottom">MINUTE</div>
+        <div class="digits" id="minutes">--</div>
+        <div class="label-bottom" id="lblMinute">MINUTE</div>
       </div>
     </div>
 
     <div class="info">
-      <div class="greeting" id="greeting">Bonjour</div>
-      <div class="date" id="date">vendredi 22 mai 2026</div>
+      <div class="greeting" id="greeting" role="button" tabindex="0">Bonjour</div>
+      <div class="date" id="date">—</div>
+    </div>
+  </div>
+
+  <!-- Modal nom -->
+  <div class="name-modal" id="nameModal" hidden>
+    <div class="name-modal-card">
+      <div class="name-modal-emoji">👋</div>
+      <div class="name-modal-title" id="modalTitle">Comment t'appelles-tu ?</div>
+      <div class="name-modal-subtitle" id="modalSubtitle">Pour personnaliser ton accueil</div>
+      <input type="text" class="name-input" id="nameInput" placeholder="Ton prénom" maxlength="20" autocomplete="off" spellcheck="false">
+      <div class="name-modal-actions">
+        <button class="btn-skip" id="btnSkip" type="button">Passer</button>
+        <button class="btn-submit" id="btnSubmit" type="button">Valider</button>
+      </div>
     </div>
   </div>
 
 <script>
-  // État
+  // ─── Traductions ─────────────────────────────────────────────────
+  const TRANSLATIONS = {
+    fr: {
+      // Salutations selon l'heure
+      greetings: {
+        morning:   'Bonjour',      // 5h–12h
+        afternoon: 'Bonjour',      // 12h–18h (FR : pas d'après-midi distinct)
+        evening:   'Bonsoir',      // 18h–23h
+        night:     'Bonne nuit'    // 23h–5h
+      },
+      lblHour: 'HEURE',
+      lblMinute: 'MINUTE',
+      modalTitle: "Comment t'appelles-tu ?",
+      modalSubtitle: 'Pour personnaliser ton accueil',
+      inputPlaceholder: 'Ton prénom',
+      btnSkip: 'Passer',
+      btnSubmit: 'Valider',
+      greetingTitle: 'Cliquer pour modifier ton prénom',
+      themeTitle: 'Changer de thème',
+      formatTitle: 'Format 12h / 24h',
+      langTitle: 'Switch to English',
+      // Bouton langue affiche la langue VERS laquelle on bascule
+      langBtnLabel: 'EN',
+      locale: 'fr-FR'
+    },
+    en: {
+      greetings: {
+        morning:   'Good morning',    // 5h–12h
+        afternoon: 'Good afternoon',  // 12h–18h
+        evening:   'Good evening',    // 18h–23h
+        night:     'Good night'       // 23h–5h
+      },
+      lblHour: 'HOUR',
+      lblMinute: 'MINUTE',
+      modalTitle: "What's your name?",
+      modalSubtitle: 'To personalize your greeting',
+      inputPlaceholder: 'Your name',
+      btnSkip: 'Skip',
+      btnSubmit: 'Save',
+      greetingTitle: 'Click to change your name',
+      themeTitle: 'Toggle theme',
+      formatTitle: '12h / 24h format',
+      langTitle: 'Passer en français',
+      langBtnLabel: 'FR',
+      locale: 'en-US'
+    }
+  };
+
+  // ─── État ────────────────────────────────────────────────────────
   let is24Hour = false;
   let isDarkMode = false;
-  let prevHours = '';
-  let prevMinutes = '';
+  let userName = '';
+  let currentLang = (navigator.language || 'fr').toLowerCase().startsWith('en') ? 'en' : 'fr';
+  const NAME_KEY = 'clockUserName';
 
-  // Récupère la langue du navigateur (fr par défaut)
-  const userLang = (navigator.language || 'fr-FR').startsWith('fr') ? 'fr-FR' : 'en-US';
-
-  // Charge les préférences depuis localStorage si dispo
+  // ─── Préférences sauvegardées ───────────────────────────────────
   try {
     if (localStorage.getItem('clockFormat') === '24') is24Hour = true;
     if (localStorage.getItem('clockTheme') === 'dark') {
       isDarkMode = true;
       document.body.classList.add('dark');
-      document.getElementById('themeToggle').textContent = '☀️';
     }
-  } catch (e) { /* localStorage indispo dans certains iframes Notion */ }
+    const savedLang = localStorage.getItem('clockLang');
+    if (savedLang === 'en' || savedLang === 'fr') currentLang = savedLang;
+    userName = localStorage.getItem(NAME_KEY) || '';
+  } catch (e) { /* iframe Notion peut bloquer localStorage */ }
+
+  // ─── DOM refs ───────────────────────────────────────────────────
+  const $ = (id) => document.getElementById(id);
+  const hoursEl    = $('hours');
+  const minutesEl  = $('minutes');
+  const periodEl   = $('period');
+  const greetingEl = $('greeting');
+  const dateEl     = $('date');
+  const modal      = $('nameModal');
+  const nameInput  = $('nameInput');
+
+  // ─── Helpers ────────────────────────────────────────────────────
+  const t = () => TRANSLATIONS[currentLang];
 
   function updateFormatButton() {
-    document.getElementById('formatToggle').textContent = is24Hour ? '12H' : '24H';
+    $('formatToggle').textContent = is24Hour ? '12H' : '24H';
   }
-  updateFormatButton();
 
   function flipElement(el, newValue) {
     if (el.textContent === newValue) return;
     el.classList.remove('flip');
-    void el.offsetWidth; // force reflow
+    void el.offsetWidth;
     el.classList.add('flip');
     el.textContent = newValue;
   }
 
-  function getGreeting(hour) {
-    if (userLang === 'fr-FR') {
-      if (hour < 6) return 'Bonne nuit';
-      if (hour < 12) return 'Bonjour';
-      if (hour < 18) return 'Bon après-midi';
-      if (hour < 22) return 'Bonsoir';
-      return 'Bonne nuit';
-    } else {
-      if (hour < 6) return 'Good night';
-      if (hour < 12) return 'Good morning';
-      if (hour < 18) return 'Good afternoon';
-      if (hour < 22) return 'Good evening';
-      return 'Good night';
-    }
+  // Salutation selon l'heure ET la langue
+  function getGreetingBase(hour24) {
+    const g = t().greetings;
+    if (hour24 >= 5 && hour24 < 12)  return g.morning;
+    if (hour24 >= 12 && hour24 < 18) return g.afternoon;
+    if (hour24 >= 18 && hour24 < 23) return g.evening;
+    return g.night;
   }
 
+  function buildGreeting(hour24) {
+    const base = getGreetingBase(hour24);
+    return userName ? `${base} ${userName}` : base;
+  }
+
+  // ─── Applique la langue à toute l'UI ────────────────────────────
+  function applyLanguage() {
+    const tr = t();
+    document.documentElement.lang = currentLang;
+
+    $('lblHour').textContent    = tr.lblHour;
+    $('lblMinute').textContent  = tr.lblMinute;
+
+    $('modalTitle').textContent    = tr.modalTitle;
+    $('modalSubtitle').textContent = tr.modalSubtitle;
+    nameInput.placeholder          = tr.inputPlaceholder;
+    $('btnSkip').textContent       = tr.btnSkip;
+    $('btnSubmit').textContent     = tr.btnSubmit;
+
+    greetingEl.title               = tr.greetingTitle;
+    $('themeToggle').title         = tr.themeTitle;
+    $('formatToggle').title        = tr.formatTitle;
+    $('langToggle').title          = tr.langTitle;
+    $('langToggle').textContent    = tr.langBtnLabel;
+
+    updateClock(); // re-render greeting + date avec nouvelle locale
+  }
+
+  // ─── Mise à jour de l'horloge ───────────────────────────────────
   function updateClock() {
     const now = new Date();
-    let h = now.getHours();
-    const h24 = h;
+    const h24 = now.getHours();
     const m = now.getMinutes();
-    const s = now.getSeconds();
 
+    let h = h24;
     let period = '';
     if (!is24Hour) {
       period = h >= 12 ? 'PM' : 'AM';
       h = h % 12 || 12;
     }
 
-    const hStr = String(h).padStart(2, '0');
-    const mStr = String(m).padStart(2, '0');
+    flipElement(hoursEl, String(h).padStart(2, '0'));
+    flipElement(minutesEl, String(m).padStart(2, '0'));
+    periodEl.textContent = is24Hour ? '\u00A0' : period;
 
-    flipElement(document.getElementById('hours'), hStr);
-    flipElement(document.getElementById('minutes'), mStr);
+    greetingEl.textContent = buildGreeting(h24);
 
-    document.getElementById('period').textContent = is24Hour ? '24H' : period;
-
-    // Salutation
-    document.getElementById('greeting').textContent = getGreeting(h24);
-
-    // Date formatée selon la langue
-    const dateOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-    document.getElementById('date').textContent = now.toLocaleDateString(userLang, dateOptions);
+    // Date du jour, formatée selon la langue active
+    const dtf = new Intl.DateTimeFormat(t().locale, {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+    const parts = dtf.formatToParts(now)
+      .filter(p => ['weekday','day','month','year','literal'].includes(p.type))
+      .map(p => p.value)
+      .join('')
+      .replace(/,\s*/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    dateEl.textContent = parts;
   }
 
-  // Toggle format 12/24h
-  document.getElementById('formatToggle').addEventListener('click', () => {
+  // ─── Toggles ────────────────────────────────────────────────────
+  $('formatToggle').addEventListener('click', () => {
     is24Hour = !is24Hour;
     updateFormatButton();
     try { localStorage.setItem('clockFormat', is24Hour ? '24' : '12'); } catch (e) {}
     updateClock();
   });
 
-  // Toggle thème dark/light
-  document.getElementById('themeToggle').addEventListener('click', () => {
+  $('themeToggle').addEventListener('click', () => {
     isDarkMode = !isDarkMode;
     document.body.classList.toggle('dark', isDarkMode);
-    document.getElementById('themeToggle').textContent = isDarkMode ? '☀️' : '🌙';
+    $('themeToggle').textContent = isDarkMode ? '☀️' : '🌙';
     try { localStorage.setItem('clockTheme', isDarkMode ? 'dark' : 'light'); } catch (e) {}
   });
 
-  // Update toutes les secondes
-  updateClock();
+  $('langToggle').addEventListener('click', () => {
+    currentLang = currentLang === 'fr' ? 'en' : 'fr';
+    try { localStorage.setItem('clockLang', currentLang); } catch (e) {}
+    applyLanguage();
+  });
+
+  // ─── Modal nom ──────────────────────────────────────────────────
+  function showNameModal() {
+    nameInput.value = userName || '';
+    modal.hidden = false;
+    setTimeout(() => nameInput.focus(), 80);
+  }
+  function hideNameModal() { modal.hidden = true; }
+
+  function saveName(name) {
+    userName = (name || '').trim().slice(0, 20);
+    try {
+      if (userName) localStorage.setItem(NAME_KEY, userName);
+      else localStorage.removeItem(NAME_KEY);
+    } catch (e) {}
+    updateClock();
+  }
+
+  $('btnSubmit').addEventListener('click', () => { saveName(nameInput.value); hideNameModal(); });
+  $('btnSkip').addEventListener('click', () => { saveName(''); hideNameModal(); });
+
+  nameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter')      { e.preventDefault(); $('btnSubmit').click(); }
+    else if (e.key === 'Escape'){ e.preventDefault(); hideNameModal(); }
+  });
+
+  greetingEl.addEventListener('click', showNameModal);
+  greetingEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showNameModal(); }
+  });
+
+  modal.addEventListener('click', (e) => { if (e.target === modal) hideNameModal(); });
+
+  // ─── Init ───────────────────────────────────────────────────────
+  $('themeToggle').textContent = isDarkMode ? '☀️' : '🌙';
+  updateFormatButton();
+  applyLanguage();
   setInterval(updateClock, 1000);
+
+  if (!userName) {
+    setTimeout(showNameModal, 500);
+  }
 </script>
 </body>
 </html>
